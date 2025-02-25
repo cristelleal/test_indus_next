@@ -3,7 +3,7 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@4.7.0
+  node: circleci/node@5
 
 jobs:
 
@@ -12,16 +12,12 @@ jobs:
     steps:
       - checkout
       - run: echo "Building the project..."
-      - run: npm install
-      - run: npm run build
   
   unit_tests:
     executor: node/default
     steps:
       - checkout
       - run: echo "Running unit tests..."
-      - run: npm install
-      - run: npm test
 
   deploy_dev:
     executor: node/default
