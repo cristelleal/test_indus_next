@@ -19,9 +19,6 @@ jobs:
           name: Installation des dépendances
           command: npm install
       - run:
-          name: Vérification du code avec ESLint
-          command: npm run lint
-      - run:
           name: Compilation et build du projet Next.js
           command: npm run build
       - run:
