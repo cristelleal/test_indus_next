@@ -9,6 +9,12 @@ jobs:
     steps:
       - checkout
       - run: echo "Building the project..."
+  
+  unit_tests:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Running unit tests..."
 
   deploy_dev:
     executor: node/default
