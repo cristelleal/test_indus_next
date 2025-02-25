@@ -14,11 +14,11 @@ describe('API /api/history', () => {
     const req = httpMocks.createRequest({ method: 'GET' });
     const res = httpMocks.createResponse();
 
-    const spy = jest.spyOn(global, 'fetch'); // Vérifier si une requête est faite
+    const spy = jest.spyOn(global, 'fetch'); 
 
     await GET();
 
-    expect(spy).not.toHaveBeenCalled(); // On ne veut pas de fetch ici
+    expect(spy).not.toHaveBeenCalled(); 
     expect(res._getStatusCode()).toBe(200);
     expect(res._getData()).toBeDefined();
   });
