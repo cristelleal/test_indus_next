@@ -1,61 +1,104 @@
-# .circleci/config.yml
-
 version: 2.1
 
 orbs:
-  node: circleci/node@5
+  node: circleci/node@5 
+
+executors:
+  nextjs-executor:
+    docker:
+      - image: cimg/node:18.16 
+    working_directory: ~/repo  
 
 jobs:
 
   build:
-    executor: node/default
+    executor: nextjs-executor
     steps:
-      - checkout
-      - run: echo "Building the project..."
+      - checkout 
+      - run:
+          name: Installation des dépendances
+          command: npm install
+      - run:
+          name: Vérification du code avec ESLint
+          command: npm run lint
+      - run:
+          name: Compilation et build du projet Next.js
+          command: npm run build
+      - run:
+          name: Nettoyage et empaquetage
+          command: echo "Nettoyage et empaquetage en simulation"
   
-  unit_tests:
-    executor: node/default
+  test:
+    executor: nextjs-executor
     steps:
       - checkout
-      - run: echo "Running unit tests..."
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Exécution des tests unitaires avec Jest
+          command: npm run test
+      - run:
+          name: Exécution des tests end-to-end (E2E) avec Cypress
+          command: echo "Tests E2E avec Cypress (simulation)"
+      - run:
+          name: Tests de régression
+          command: echo "Simulation des tests de régression"
+      - run:
+          name: Tests de performance
+          command: echo "Simulation des tests de performance"
+      - run:
+          name: Tests de sécurité
+          command: echo "Simulation des tests de sécurité"
+      - run:
+          name: Tests de compatibilité
+          command: echo "Simulation des tests de compatibilité"
+      - run:
+          name: Tests d'accessibilité
+          command: echo "Simulation des tests d'accessibilité"
 
-  deploy_dev:
-    executor: node/default
+  deploy:
+    executor: nextjs-executor
     steps:
       - checkout
-      - run: echo "Deploying to development environment..."
-
-  deploy_prod:
-    executor: node/default
-    steps:
-      - checkout
-      - run: echo "Deploying to production environment..."
+      - run:
+          name: Installation de Vercel CLI
+          command: npm install -g vercel
+      - run:
+          name: Connexion à Vercel
+          command: vercel login --token $VERCEL_TOKEN
+      - run:
+          name: Déploiement Next.js sur Vercel
+          command: vercel --prod --token $VERCEL_TOKEN
+      - run:
+          name: Vérification post-déploiement
+          command: echo "Tests post-déploiement en simulation"
+      - run:
+          name: Surveillance et suivi de la production
+          command: echo "Surveillance de l'application en simulation"
 
 workflows:
   version: 2
-
   build-test-deploy:
-
     jobs:
-
-      - build
-
-      - unit_tests:
-          requires:
-            - build
-
-      - deploy_dev:
-          requires:
-            - unit_tests
+      - build:
           filters:
             branches:
-              only:
-                - develop
+              ignore: 
+                - /^feature.*/  
+                - /^hotfix.*/  
 
-      - deploy_prod:
+      - test:
           requires:
-            - unit_tests
+            - build  
           filters:
             branches:
-              only:
-                - main
+              ignore: 
+                - /^feature.*/  
+                - /^hotfix.*/   
+
+      - deploy:
+          requires:
+            - test  
+          filters:
+            branches:
+              only: main 
