@@ -223,8 +223,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Nettoyage des branches
-          command: echo "Nettoyage des branches après déploiement..."
+          name: Suppression des branches feature/* et hotfix/*
+          command: |
+            git fetch --prune
+            for branch in $(git branch -r | grep -E "origin/(feature|hotfix)/" | sed 's/origin\///'); do
+              echo "Suppression de la branche: $branch"
+              git push origin --delete "$branch" || echo "Impossible de supprimer $branch"
+            done
 
 workflows:
   version: 2
