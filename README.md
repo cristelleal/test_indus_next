@@ -89,7 +89,17 @@ vercel --prod --token $VERCEL_TOKEN
 ---
 
 ## 📸 Suivi des Pipelines
-Des captures d’écran des pipelines exécutés avec succès sont disponibles dans le dossier **documentation**.
+### ✅ **Pipeline réussi sur `develop`**
+_Exécution du pipeline après un push sur `develop`, avec succès des tests d'intégration (et du reste)._
+
+![Aperçu du projet](documentation/tests.png)
+
+[![Aperçu vidéo](documentation/video_thumbnail.png)](https://www.youtube.com/watch?v=57U_apVG0rc)
+
+### ✅ **Pipeline réussi sur `main`**
+_Exécution du pipeline après un push sur `main`, déclenchant le déploiement sur Vercel._
+
+[![Aperçu vidéo](documentation/video_thumbnail.png)](https://www.youtube.com/watch?v=Fk72kAiEsvI)
 
 ---
 
@@ -99,3 +109,5 @@ Retrouvez le projet et son fichier de configuration **CircleCI** ici :
 
 Retrouvez le projet hébergé sur **Vercel** ici :
 👉 [Lien Vercel](https://testindusnext.vercel.app/)
+
+🚀 **Projet développé par Cristelle Almodar**
