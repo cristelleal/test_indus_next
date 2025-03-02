@@ -1,43 +1,84 @@
-# Next.js + Jest
+# 📘 Documentation Technique - CI/CD avec CircleCI & Vercel
 
-This example shows how to configure Jest to work with Next.js.
+## 🚀 Introduction
+Ce projet est configuré avec **CircleCI** pour assurer l'intégration et le déploiement continus d'une application **Next.js**. Le pipeline effectue des vérifications de code, des tests automatisés et un déploiement final sur **Vercel**.
 
-This includes Next.js' built-in support for Global CSS, CSS Modules and TypeScript. This example also shows how to use Jest with the App Router and React Server Components.
+---
 
-> **Note:** Since tests can be co-located alongside other files inside the App Router, we have placed those tests in `app/` to demonstrate this behavior (which is different than `pages/`). You can still place all tests in `__tests__` if you prefer.
+## 🏗️ Gestion des Branches
+Le projet suit la méthodologie **GitFlow**, avec une structure claire :
 
-## Deploy your own
+- **develop** : Branche de développement utilisée pour intégrer les nouvelles fonctionnalités.
+- **integration** : Environnement de test pour valider les modifications avant production.
+- **main** : Branche principale, contenant la version stable en production.
+- **feature/*** : Branches temporaires pour le développement de nouvelles fonctionnalités.
+- **hotfix/*** : Branches dédiées aux corrections urgentes en production.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-jest&project-name=with-jest&repository-name=with-jest)
+---
 
-## How to Use
+## 🔄 Workflow CI/CD
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+### 🛠 Étapes du pipeline
+Le fichier `.circleci/config.yml` définit plusieurs étapes pour automatiser le cycle de vie du projet :
+
+1. **Installation des dépendances** (`install_dependencies`)
+2. **Analyse statique du code** (`code_analysis`)
+3. **Compilation du projet** (`build_project`)
+4. **Tests unitaires** (`unit_tests`)
+5. **Tests d'intégration** (`integration_tests`)
+6. **Déploiement sur Vercel** (`deploy_vercel`)
+
+Chaque job est conditionné pour garantir un enchaînement logique et optimiser les performances.
+
+### 🔍 Conditions d’exécution
+- Les tests et le build sont exécutés sur toutes les branches.
+- Le déploiement sur **Vercel** se déclenche uniquement lors de modifications sur la branche **main**.
+
+---
+
+## ⚙️ Configuration CircleCI
+
+### 📁 Fichier `.circleci/config.yml`
+Le fichier de configuration se trouve à la racine du projet, dans le dossier `.circleci/`. Il définit :
+
+- L’exécution des jobs dans un environnement **Node.js**.
+- L’utilisation de **Vercel CLI** pour le déploiement.
+- L’enchaînement des étapes en fonction des dépendances et des branches concernées.
+
+### 🔑 Variables d’environnement
+Pour garantir le bon fonctionnement du déploiement, les variables suivantes doivent être définies dans CircleCI :
+
+| Nom de la Variable | Description |
+|--------------------|-------------|
+| `VERCEL_TOKEN` | Jeton d’authentification Vercel |
+
+La variable a été ajoutée dans **Project Settings > Environment Variables** sur CircleCI.
+
+---
+
+## 🚀 Déploiement sur Vercel
+L’application est déployée automatiquement sur **Vercel** à chaque mise à jour de la branche **main**.
+
+Si nécessaire, le déploiement peut être déclenché manuellement avec la commande suivante :
 
 ```bash
-npx create-next-app --example with-jest with-jest-app
+vercel --prod --token $VERCEL_TOKEN
 ```
 
-```bash
-yarn create next-app --example with-jest with-jest-app
-```
+---
 
-```bash
-pnpm create next-app --example with-jest with-jest-app
-```
+## 📸 Suivi des Pipelines
+Des captures d’écran des pipelines exécutés avec succès sont disponibles dans le dossier **documentation**.
 
-## Running Tests
+---
 
-```bash
-npm test
-```
+## 🔗 Référentiel GitHub & Projet hébergé
+Retrouvez le projet et son fichier de configuration **CircleCI** ici :
+👉 **[GitHub Repository**](https://github.com/cristelleal/test_indus_next)
 
-```bash
-yarn test
-```
+Retrouvez le projet hébergé sur **Vercel** ici :
+👉 **[Lien Vercel**](https://testindusnext.vercel.app/)
 
-```bash
-pnpm test
-```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+
+
