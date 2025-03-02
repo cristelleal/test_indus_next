@@ -108,12 +108,12 @@ _Exécution du pipeline après un push sur `hotfix`, avec succès des tests d'in
 ![Aperçu](documentation/hotfix.png)
 
 ### ✅ **Pipeline réussi sur `feature/style`**
-_Exécution du pipeline après un push sur `feature/style`, avec succès. Après merge sur main, déploiement sur Vercel avec le nouveau style appliqué au composant Calculator_
+_Exécution du pipeline sur mainaprès un push sur `feature/style`, avec succès. Après merge sur main, déploiement sur Vercel avec le nouveau style appliqué au composant Calculator_
 
 ![Aperçu](documentation/feature-style.png)
 
-### ✅ **Pipeline réussi sur `feature/test`**
-_Exécution du pipeline après un push sur `feature/test`, avec succès des tests d'intégration (et du reste)._
+### ✅ **Pipeline réussi sur `main` après merge de `feature/test`**
+_Exécution du pipeline après merge de `feature/test` sur `main`, avec succès de tous les jobs._
 
 ![Aperçu](documentation/feature.png)
 
