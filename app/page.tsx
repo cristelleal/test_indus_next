@@ -7,7 +7,10 @@ import Calculator from './component/calculator/calculator';
 export default function Page() {
   return (
     <>
-      <h1>App Router</h1>
+      <h1 style={
+        { color: 'gray', textAlign:
+        'center' }
+      }>Projet CI/CD Vercel</h1>
       <Calculator />
     </>
   );
