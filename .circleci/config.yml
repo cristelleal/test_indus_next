@@ -161,6 +161,22 @@ jobs:
           name: Surveillance de l'application en production
           command: echo "Surveillance continue de la production..."
 
+generation_version:
+  executor: node-executor
+  steps:
+    - checkout
+    - run:
+        name: Création d'un tag de version
+        command: |
+          DATE_VERSION=$(date +%Y%m%d%H%M)
+          TAG_VERSION="prod-${DATE_VERSION}"
+          echo "Version de production: ${TAG_VERSION}"
+          echo "${TAG_VERSION}" > .version
+    - persist_to_workspace:
+        root: .
+        paths:
+          - .version
+
 workflows:
   version: 2
   pipeline_complete:
