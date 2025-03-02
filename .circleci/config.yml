@@ -2,12 +2,11 @@ version: 2.1
 
 orbs:
   node: circleci/node@5
-  vercel: scope/vercel@1.0.0
 
 executors:
   node-executor:
     docker:
-      - image: cimg/node:16.14
+      - image: cimg/node:18.18
     resource_class: medium
 
 jobs:
