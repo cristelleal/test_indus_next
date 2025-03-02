@@ -1,5 +1,7 @@
 # 📘 Documentation Technique - CI/CD avec CircleCI & Vercel
 
+![Aperçu du projet](public/project.png)
+
 ## 🚀 Introduction
 Ce projet est configuré avec **CircleCI** pour assurer l'intégration et le déploiement continus d'une application **Next.js**. Le pipeline effectue des vérifications de code, des tests automatisés et un déploiement final sur **Vercel**.
 
@@ -93,7 +95,7 @@ Des captures d’écran des pipelines exécutés avec succès sont disponibles d
 
 ## 🔗 Référentiel GitHub & Projet hébergé
 Retrouvez le projet et son fichier de configuration **CircleCI** ici :
-👉 **[GitHub Repository**](https://github.com/cristelleal/test_indus_next)
+👉 [GitHub Repository](https://github.com/cristelleal/test_indus_next)
 
 Retrouvez le projet hébergé sur **Vercel** ici :
-👉 **[Lien Vercel**](https://testindusnext.vercel.app/)
+👉 [Lien Vercel](https://testindusnext.vercel.app/)
