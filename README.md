@@ -4,6 +4,7 @@
 
 ## 🚀 Introduction
 Ce projet est configuré avec **CircleCI** pour assurer l'intégration et le déploiement continus d'une application **Next.js**. Le pipeline effectue des vérifications de code, des tests automatisés et un déploiement final sur **Vercel**.
+👉 [Lien Vercel](https://testindusnext.vercel.app/)
 
 ---
 
@@ -133,4 +134,4 @@ Retrouvez le projet et son fichier de configuration **CircleCI** ici :
 Retrouvez le projet en lui-même, hébergé sur **Vercel** ici :
 👉 [Lien Vercel](https://testindusnext.vercel.app/)
 
-🚀 **Projet développé par Cristelle Almodar. Merci**
+🚀 **Projet développé par Cristelle Almodar. Merci!**
