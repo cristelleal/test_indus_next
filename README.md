@@ -92,14 +92,14 @@ vercel --prod --token $VERCEL_TOKEN
 ### ✅ **Pipeline réussi sur `develop`**
 _Exécution du pipeline après un push sur `develop`, avec succès des tests d'intégration (et du reste)._
 
-![Aperçu du projet](documentation/tests.png)
+[![Aperçu vidéo](https://img.youtube.com/vi/57U_apVG0rc/maxresdefault.jpg)](https://www.youtube.com/watch?v=57U_apVG0rc)
 
-[![Aperçu vidéo](documentation/video_thumbnail.png)](https://www.youtube.com/watch?v=57U_apVG0rc)
+![Aperçu du projet](documentation/tests.png)
 
 ### ✅ **Pipeline réussi sur `main`**
 _Exécution du pipeline après un push sur `main`, déclenchant le déploiement sur Vercel._
 
-[![Aperçu vidéo](documentation/video_thumbnail.png)](https://www.youtube.com/watch?v=Fk72kAiEsvI)
+[![Aperçu vidéo](https://img.youtube.com/vi/Fk72kAiEsvI/maxresdefault.jpg)](https://www.youtube.com/watch?v=Fk72kAiEsvI)
 
 ---
 
