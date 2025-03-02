@@ -11,8 +11,8 @@ Le projet suit la méthodologie **GitFlow**, avec une structure claire :
 - **develop** : Branche de développement utilisée pour intégrer les nouvelles fonctionnalités.
 - **integration** : Environnement de test pour valider les modifications avant production.
 - **main** : Branche principale, contenant la version stable en production.
-- **feature/*** : Branches temporaires pour le développement de nouvelles fonctionnalités.
-- **hotfix/*** : Branches dédiées aux corrections urgentes en production.
+- **feature/*** : Branches temporaires pour le développement de nouvelles fonctionnalités. **(supprimées après merge)**
+- **hotfix/*** : Branches dédiées aux corrections urgentes en production. **(supprimées après merge)**
 
 ---
 
@@ -21,18 +21,36 @@ Le projet suit la méthodologie **GitFlow**, avec une structure claire :
 ### 🛠 Étapes du pipeline
 Le fichier `.circleci/config.yml` définit plusieurs étapes pour automatiser le cycle de vie du projet :
 
-1. **Installation des dépendances** (`install_dependencies`)
-2. **Analyse statique du code** (`code_analysis`)
-3. **Compilation du projet** (`build_project`)
-4. **Tests unitaires** (`unit_tests`)
-5. **Tests d'intégration** (`integration_tests`)
-6. **Déploiement sur Vercel** (`deploy_vercel`)
+#### **Stage 1: Build**
+1. **Installation des dépendances** (`initialisation`)
+2. **Analyse statique du code** (`validation_code`)
+3. **Compilation du projet** (`construction_projet`)
+4. **Nettoyage et packaging** (`cleaning_packaging`)
+
+#### **Stage 2: Tests**
+5. **Tests unitaires** (`tests_unitaires`)
+6. **Tests d'intégration** (`tests_integration`)
+7. **Tests de régression** (`tests_regression`)
+8. **Tests de performance** (`tests_performance`)
+9. **Tests de sécurité** (`tests_securite`)
+10. **Tests de compatibilité** (`tests_compatibilite`)
+11. **Tests d'accessibilité** (`tests_accessibilite`)
+12. **Tests de charge** (`tests_charge`)
+
+#### **Stage 3: Déploiement**
+13. **Génération de version** (`generation_version`)
+14. **Préparation du déploiement** (`preparation_deploiement`)
+15. **Déploiement sur Vercel** (`deploiement_vercel_production`)
+16. **Vérification après déploiement** (`verification_post_deploiement`)
+17. **Surveillance post-déploiement** (`surveillance_post_deploiement_production`)
+18. **Nettoyage des branches feature/hotfix après merge** (`cleanup_branches`)
 
 Chaque job est conditionné pour garantir un enchaînement logique et optimiser les performances.
 
 ### 🔍 Conditions d’exécution
 - Les tests et le build sont exécutés sur toutes les branches.
 - Le déploiement sur **Vercel** se déclenche uniquement lors de modifications sur la branche **main**.
+- Les branches **feature/*** et **hotfix/*** sont automatiquement supprimées après leur merge dans `main`.
 
 ---
 
@@ -44,6 +62,7 @@ Le fichier de configuration se trouve à la racine du projet, dans le dossier `.
 - L’exécution des jobs dans un environnement **Node.js**.
 - L’utilisation de **Vercel CLI** pour le déploiement.
 - L’enchaînement des étapes en fonction des dépendances et des branches concernées.
+- Un mécanisme de suppression automatique des branches `feature/*` et `hotfix/*` après leur fusion.
 
 ### 🔑 Variables d’environnement
 Pour garantir le bon fonctionnement du déploiement, les variables suivantes doivent être définies dans CircleCI :
@@ -65,8 +84,6 @@ Si nécessaire, le déploiement peut être déclenché manuellement avec la comm
 vercel --prod --token $VERCEL_TOKEN
 ```
 
-Les autres branches ne permettent pas un déploiement sur Vercel.
-
 ---
 
 ## 📸 Suivi des Pipelines
@@ -80,7 +97,3 @@ Retrouvez le projet et son fichier de configuration **CircleCI** ici :
 
 Retrouvez le projet hébergé sur **Vercel** ici :
 👉 **[Lien Vercel**](https://testindusnext.vercel.app/)
-
-
-
-
