@@ -128,8 +128,8 @@ _Checks validés sur Github_
 ---
 
 ## 🔗 Référentiel GitHub & Projet hébergé
-Retrouvez le projet et son fichier de configuration **CircleCI** ici :
-👉 [GitHub Repository](https://github.com/cristelleal/test_indus_next/blob/main/.circleci/config.yml)
+Retrouvez le fichier de configuration **CircleCI** ici :
+👉 [config.yml](https://github.com/cristelleal/test_indus_next/blob/main/.circleci/config.yml)
 
 Retrouvez le projet en lui-même, hébergé sur **Vercel** ici :
 👉 [Lien Vercel](https://testindusnext.vercel.app/)
