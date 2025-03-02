@@ -211,12 +211,12 @@ jobs:
           at: .
       - run:
           name: Installation de Vercel CLI
-          command: npm install -g vercel
+          command: npm install vercel
       - run:
           name: Déploiement sur Vercel (environnement de production)
           command: |
             echo "Déploiement vers l'environnement de production..."
-            vercel --token ${VERCEL_TOKEN} --prod --confirm --no-clipboard --scope ${VERCEL_SCOPE} --env ENVIRONMENT=production
+            npx vercel --token ${VERCEL_TOKEN} --prod --confirm --no-clipboard
 
   cleanup_branches:
     executor: node-executor
