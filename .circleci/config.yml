@@ -1,15 +1,18 @@
 version: 2.1
 
+# Importation de modules préconfigurés
 orbs:
   node: circleci/node@5
 
+# Définition de l'environnement d'exécution
 executors:
   node-executor:
     docker:
       - image: cimg/node:18.18
-    resource_class: medium
+    resource_class: medium # Allocation des ressources pour ce job
 
 jobs:
+  # Job d'initialisation : installation des dépendances et vérification de Next.js
   initialisation:
     executor: node-executor
     steps:
@@ -20,13 +23,14 @@ jobs:
       - run:
           name: Vérification de Next.js
           command: npm list next || echo "Next.js non détecté dans le projet!"
-      - persist_to_workspace:
+      - persist_to_workspace: # Cela permet d'éviter une réinstallation dans les jobs suivants
           root: .
           paths:
             - node_modules
             - package.json
             - package-lock.json
 
+  # Job de validation du code : linting et vérification des types
   validation_code:
     executor: node-executor
     steps:
@@ -40,6 +44,7 @@ jobs:
           name: Vérification des types
           command: echo "Vérification des typages..."
 
+  # Job de construction du projet : build du projet Next.js
   construction_projet:
     executor: node-executor
     steps:
@@ -55,6 +60,7 @@ jobs:
             - .next
             - public
 
+  # Job de nettoyage et packaging
   cleaning_packaging:
     executor: node-executor
     steps:
@@ -65,6 +71,7 @@ jobs:
           name: Nettoyage et packaging
           command: echo "Nettoyage et du packaging..."
 
+  # Job d'exécution des tests unitaires
   tests_unitaires:
     executor: node-executor
     steps:
@@ -75,6 +82,7 @@ jobs:
           name: Exécution des tests unitaires
           command: echo "Lancement des tests unitaires..."
 
+  # Job d'exécution des tests d'intégration
   tests_integration:
     executor: node-executor
     steps:
@@ -85,6 +93,7 @@ jobs:
           name: Exécution des tests d'intégration
           command: echo "Lancement des tests d'intégration..."
 
+  # Job d'exécution des tests de régression
   tests_regression:
     executor: node-executor
     steps:
@@ -95,6 +104,7 @@ jobs:
           name: Exécution des tests de régression
           command: echo "Lancement des tests de régression..."
 
+  # Job d'exécution des tests de performance
   tests_performance:
     executor: node-executor
     steps:
@@ -105,6 +115,7 @@ jobs:
           name: Exécution des tests de performance
           command: echo "Lancement des tests de performance..."
 
+  # Job d'exécution des tests de sécurité
   tests_securite:
     executor: node-executor
     steps:
@@ -115,6 +126,7 @@ jobs:
           name: Exécution des tests de sécurité
           command: echo "Lancement des tests de sécurité..."
 
+  # Job d'exécution des tests de compatibilité
   tests_compatibilite:
     executor: node-executor
     steps:
@@ -125,6 +137,7 @@ jobs:
           name: Exécution des tests de compatibilité
           command: echo "Lancement des tests de compatibilité..."
 
+  # Job d'exécution des tests d'accessibilité
   tests_accessibilite:
     executor: node-executor
     steps:
@@ -135,6 +148,7 @@ jobs:
           name: Exécution des tests d'accessibilité
           command: echo "Lancement des tests d'accessibilité..."
 
+  # Job d'exécution des tests de charge
   tests_charge:
     executor: node-executor
     steps:
@@ -145,6 +159,7 @@ jobs:
           name: Exécution des tests de charge
           command: echo "Lancement des tests de charge..."
 
+  # Job de vérification après déploiement
   verification_post_deploiement:
     executor: node-executor
     steps:
@@ -153,6 +168,7 @@ jobs:
           name: Vérification après déploiement
           command: echo "Vérification que l'application fonctionne après déploiement..."
 
+  # Job de surveillance post-déploiement en production
   surveillance_post_deploiement_production:
     executor: node-executor
     steps:
@@ -161,6 +177,7 @@ jobs:
           name: Surveillance de l'application en production
           command: echo "Surveillance continue de la production..."
 
+  # Job de génération de version
   generation_version:
     executor: node-executor
     steps:
@@ -177,6 +194,7 @@ jobs:
           paths:
             - .version
 
+  # Job de préparation du déploiement
   preparation_deploiement:
     executor: node-executor
     steps:
@@ -203,6 +221,7 @@ jobs:
           paths:
             - .env*
 
+  # Job de déploiement sur Vercel en production
   deploiement_vercel_production:
     executor: node-executor
     steps:
@@ -218,6 +237,7 @@ jobs:
             echo "Déploiement vers l'environnement de production..."
             npx vercel --token ${VERCEL_TOKEN} --prod --confirm --no-clipboard
 
+  # Job de nettoyage des branches feature/* et hotfix/* après merge sur main
   cleanup_branches:
     executor: node-executor
     steps:
@@ -231,6 +251,7 @@ jobs:
               git push origin --delete "$branch" || echo "Impossible de supprimer $branch"
             done
 
+# Définition des workflows
 workflows:
   version: 2
   pipeline_complete:
