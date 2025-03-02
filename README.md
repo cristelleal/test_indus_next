@@ -88,18 +88,41 @@ vercel --prod --token $VERCEL_TOKEN
 
 ---
 
-## 📸 Suivi des Pipelines
+## 📸 Suivi des Pipelines  
 ### ✅ **Pipeline réussi sur `develop`**
 _Exécution du pipeline après un push sur `develop`, avec succès des tests d'intégration (et du reste)._
 
-[![Aperçu vidéo](https://img.youtube.com/vi/57U_apVG0rc/maxresdefault.jpg)](https://www.youtube.com/watch?v=57U_apVG0rc)
+🎥 [Lien vidéo détails pipeline develop](https://www.youtube.com/watch?v=57U_apVG0rc)
 
-![Aperçu du projet](documentation/tests.png)
+![Aperçu](documentation/tests.png)
 
 ### ✅ **Pipeline réussi sur `main`**
 _Exécution du pipeline après un push sur `main`, déclenchant le déploiement sur Vercel._
 
-[![Aperçu vidéo](https://img.youtube.com/vi/Fk72kAiEsvI/maxresdefault.jpg)](https://www.youtube.com/watch?v=Fk72kAiEsvI)
+🎥 [Lien vidéo détails pipeline main](https://www.youtube.com/watch?v=Fk72kAiEsvI)
+
+
+### ✅ **Pipeline réussi sur `hotfix`**
+_Exécution du pipeline après un push sur `hotfix`, avec succès des tests d'intégration (et du reste)._
+
+![Aperçu](documentation/hotfix.png)
+
+### ✅ **Pipeline réussi sur `feature/style`**
+_Exécution du pipeline après un push sur `feature/style`, avec succès. Après merge sur main, déploiement sur Vercel avec le nouveau style appliqué au composant Calculator_
+
+![Aperçu](documentation/feature-style.png)
+
+### ✅ **Pipeline réussi sur `feature/test`**
+_Exécution du pipeline après un push sur `feature/test`, avec succès des tests d'intégration (et du reste)._
+
+![Aperçu](documentation/feature.png)
+
+### ✅ **Pipeline `Github`**
+_Checks validés sur Github_
+
+![Aperçu](documentation/checks.png)
+
+![Aperçu](documentation/github.png)
 
 ---
 
@@ -107,7 +130,7 @@ _Exécution du pipeline après un push sur `main`, déclenchant le déploiement 
 Retrouvez le projet et son fichier de configuration **CircleCI** ici :
 👉 [GitHub Repository](https://github.com/cristelleal/test_indus_next)
 
-Retrouvez le projet hébergé sur **Vercel** ici :
+Retrouvez le projet en lui-même, hébergé sur **Vercel** ici :
 👉 [Lien Vercel](https://testindusnext.vercel.app/)
 
-🚀 **Projet développé par Cristelle Almodar**
+🚀 **Projet développé par Cristelle Almodar. Merci**
