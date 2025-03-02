@@ -65,6 +65,8 @@ Si nécessaire, le déploiement peut être déclenché manuellement avec la comm
 vercel --prod --token $VERCEL_TOKEN
 ```
 
+Les autres branches ne permettent pas un déploiement sur Vercel.
+
 ---
 
 ## 📸 Suivi des Pipelines

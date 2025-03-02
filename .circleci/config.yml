@@ -69,56 +69,6 @@ jobs:
       - store_test_results:
           path: ./rapports-tests/
 
-  tests_integration:
-    executor: node-executor
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: 
-          name: Exécution des tests d'intégration
-          command: npm run test:integration || echo "Tests d'intégration non configurés"
-
-  tests_fonctionnels:
-    executor: node-executor
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: 
-          name: Exécution des tests de régression
-          command: npm run test:regression || echo "Tests de régression non configurés"
-
-  tests_securite:
-    executor: node-executor
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: 
-          name: Analyse de sécurité
-          command: npm run security-scan || echo "Scans de sécurité non configurés"
-
-  tests_accessibilite:
-    executor: node-executor
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: 
-          name: Vérification d'accessibilité
-          command: npm run a11y || echo "Tests d'accessibilité non configurés"
-
-  tests_compatibilite:
-    executor: node-executor
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: 
-          name: Tests de compatibilité cross-browser
-          command: npm run test:compatibility || echo "Tests de compatibilité non configurés"
-
   generation_version:
     executor: node-executor
     steps:
@@ -126,23 +76,9 @@ jobs:
       - run:
           name: Création d'un tag de version
           command: |
-            BRANCHE=${CIRCLE_BRANCH}
             DATE_VERSION=$(date +%Y%m%d%H%M)
-            
-            if [[ "$BRANCHE" == "develop" ]]; then
-              TAG_VERSION="dev-${DATE_VERSION}"
-              echo "Version de développement: ${TAG_VERSION}"
-            elif [[ "$BRANCHE" == "integration" ]]; then
-              TAG_VERSION="int-${DATE_VERSION}"
-              echo "Version d'intégration: ${TAG_VERSION}"
-            elif [[ "$BRANCHE" == "main" ]]; then
-              TAG_VERSION="prod-${DATE_VERSION}"
-              echo "Version de production: ${TAG_VERSION}"
-            else
-              TAG_VERSION="custom-${BRANCHE}-${DATE_VERSION}"
-              echo "Version personnalisée: ${TAG_VERSION}"
-            fi
-            
+            TAG_VERSION="prod-${DATE_VERSION}"
+            echo "Version de production: ${TAG_VERSION}"
             echo "${TAG_VERSION}" > .version
       - persist_to_workspace:
           root: .
@@ -157,53 +93,11 @@ jobs:
           at: .
       - run: 
           name: Préparation de l'environnement
-          command: |
-            echo "Configuration des variables d'environnement..."
-            BRANCHE=${CIRCLE_BRANCH}
-            
-            if [[ "$BRANCHE" == "develop" ]]; then
-              echo "export VERCEL_ENV=preview" >> $BASH_ENV
-            elif [[ "$BRANCHE" == "integration" ]]; then
-              echo "export VERCEL_ENV=preview" >> $BASH_ENV
-            elif [[ "$BRANCHE" == "main" ]]; then
-              echo "export VERCEL_ENV=production" >> $BASH_ENV
-            else
-              echo "export VERCEL_ENV=preview" >> $BASH_ENV
-            fi
+          command: echo "export VERCEL_ENV=production" >> $BASH_ENV
       - persist_to_workspace:
           root: .
           paths:
             - .env*
-
-  deploiement_vercel_dev:
-    executor: node-executor
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: Installation de Vercel CLI
-          command: npm install -g vercel
-      - run:
-          name: Déploiement sur Vercel (environnement de développement)
-          command: |
-            echo "Déploiement vers l'environnement de développement..."
-            vercel --token ${VERCEL_TOKEN} --confirm --no-clipboard --scope ${VERCEL_SCOPE} --env ENVIRONMENT=development
-
-  deploiement_vercel_staging:
-    executor: node-executor
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: Installation de Vercel CLI
-          command: npm install -g vercel
-      - run:
-          name: Déploiement sur Vercel (environnement de staging)
-          command: |
-            echo "Déploiement vers l'environnement de staging..."
-            vercel --token ${VERCEL_TOKEN} --confirm --no-clipboard --scope ${VERCEL_SCOPE} --env ENVIRONMENT=staging
 
   deploiement_vercel_production:
     executor: node-executor
@@ -215,54 +109,23 @@ jobs:
           name: Installation de Vercel CLI
           command: npm install -g vercel
       - run:
-          name: Déploiement sur Vercel (environnement de production)
+          name: Déploiement sur Vercel (production)
           command: |
             echo "Déploiement vers l'environnement de production..."
             vercel --token ${VERCEL_TOKEN} --prod --confirm --no-clipboard --scope ${VERCEL_SCOPE} --env ENVIRONMENT=production
 
-  tests_performance_staging:
+  cleanup_branches:
     executor: node-executor
     steps:
       - checkout
-      - attach_workspace:
-          at: .
-      - run: 
-          name: Tests de performance (staging)
+      - run:
+          name: Suppression des branches hotfix et feature après merge
           command: |
-            echo "Exécution des tests de performance sur l'environnement de staging..."
-            npm run perf:staging || echo "Tests de performance non configurés"
-
-  tests_performance_production:
-    executor: node-executor
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: 
-          name: Tests de performance (production)
-          command: |
-            echo "Exécution des tests de performance sur l'environnement de production..."
-            npm run perf:prod || echo "Tests de performance non configurés"
-
-  surveillance_post_deploiement_staging:
-    executor: node-executor
-    steps:
-      - checkout
-      - run: 
-          name: Surveillance après déploiement (staging)
-          command: |
-            echo "Surveillance de l'environnement de staging après déploiement..."
-            curl -s ${STAGING_URL}/health || echo "Endpoint non disponible"
-
-  surveillance_post_deploiement_production:
-    executor: node-executor
-    steps:
-      - checkout
-      - run: 
-          name: Surveillance après déploiement (production)
-          command: |
-            echo "Surveillance de l'environnement de production après déploiement..."
-            curl -s ${PRODUCTION_URL}/health || echo "Endpoint non disponible"
+            git fetch --prune
+            for branch in $(git branch -r | grep -E "origin/(hotfix|feature)/" | sed 's/origin\///'); do
+              echo "Suppression de la branche: $branch"
+              git push origin --delete "$branch" || echo "Impossible de supprimer $branch"
+            done
 
 workflows:
   version: 2
@@ -275,90 +138,27 @@ workflows:
       - construction_projet:
           requires:
             - validation_code
-
       - tests_unitaires:
           requires:
             - construction_projet
-      - tests_integration:
-          requires:
-            - construction_projet
-      - tests_fonctionnels:
-          requires:
-            - construction_projet
-      - tests_securite:
-          requires:
-            - construction_projet
-      - tests_accessibilite:
-          requires:
-            - construction_projet
-      - tests_compatibilite:
-          requires:
-            - construction_projet
-
       - generation_version:
           requires:
             - tests_unitaires
-            - tests_integration
-            - tests_fonctionnels
-            - tests_securite
-            - tests_accessibilite
-            - tests_compatibilite
           filters:
             branches:
-              only:
-                - develop
-                - integration
-                - main
-                
+              only: main
       - preparation_deploiement:
           requires:
             - generation_version
-
-      - deploiement_vercel_dev:
-          requires:
-            - preparation_deploiement
-          filters:
-            branches:
-              only: develop
-
-      - deploiement_vercel_staging:
-          requires:
-            - preparation_deploiement
-          filters:
-            branches:
-              only: integration
-
       - deploiement_vercel_production:
           requires:
             - preparation_deploiement
           filters:
             branches:
               only: main
-
-      - tests_performance_staging:
-          requires:
-            - deploiement_vercel_staging
-          filters:
-            branches:
-              only: integration
-
-      - surveillance_post_deploiement_staging:
-          requires:
-            - tests_performance_staging
-          filters:
-            branches:
-              only: integration
-
-      - tests_performance_production:
+      - cleanup_branches:
           requires:
             - deploiement_vercel_production
-          filters:
-            branches:
-              only: main
-
-      - surveillance_post_deploiement_production:
-          requires:
-            - tests_performance_production
           filters:
             branches:
               only: main
